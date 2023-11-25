@@ -48,7 +48,6 @@ html {
 // contains all fetched properties
 .properties__container {
   display: flex;
-  justify-content: space-around;
   width: 80%;
   margin: 0.5rem auto 1rem;
   padding: 0.5rem;
@@ -65,18 +64,11 @@ html {
   background: white;
   @include hoverShadowSetup;
   cursor: pointer;
+  width: 8rem;
   .property__thumbnail {
-    height: 4rem;
+    width: calc(8rem - 2px);
+    height: 50%;
     border-radius: 5px 5px 0 0;
-    @media (min-width: 577px) {
-      height: 6rem;
-    }
-  }
-  .property__description__container {
-    height: 10rem;
-    @media (min-width: 577px) {
-      height: 6rem;
-    }
   }
   .property__description {
     padding: 0 0.5rem;
@@ -103,4 +95,45 @@ html {
         @include hoverShadow;
     }
   }
+}
+
+.compare-properties__container {
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    margin: 0.5rem auto 1rem;
+    padding: 0.5rem;
+    @include parentBorder;
+    @include shadow;
+}
+
+.compared-property__container {
+    display: flex;
+    flex-direction: column;
+    width: 12rem;
+    margin: 10px;
+    @include childBorder;
+    cursor: pointer;
+    .property__thumbnail{
+        width: calc(12rem - 1px);
+        height: 50%;
+        border-radius: 5px 5px 0 0;
+    }
+    p {
+        margin: 0.1rem 0;
+        padding: 0 0.5rem;
+    }
+    .property_company__container {
+        display: flex;
+        height: 50%;
+        .property_company__logo {
+            width: 30%;
+        }
+        .property_company__name {
+            width: 70%;
+        } 
+    }
+    &:hover {
+        @include hoverShadow;
+    }
 }
