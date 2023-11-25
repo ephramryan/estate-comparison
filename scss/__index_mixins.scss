@@ -1,0 +1,36 @@
+@mixin shadow {
+    box-shadow: 0 10px 13px -7px rgba(0,0,0,.4), 0 0 5px 2px transparent;
+}
+
+@mixin hoverShadowSetup {
+    transition: box-shadow 0.3s ease;
+  box-shadow: 0 0 0 0 rgba(255, 255, 0, 0);
+}
+
+@mixin hoverShadow {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.7);
+}
+
+@mixin headlinePosition {
+    text-align: center;
+    margin: 0 auto;
+    max-width: 80%;
+}
+
+@mixin parentBorder {
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+@mixin childBorder {
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+@mixin rowBorder {
+    border-radius: 5px 0 0 5px;
+}
+
+@mixin columnBorder {
+    border-radius: 5px 5px 0 0;
+}

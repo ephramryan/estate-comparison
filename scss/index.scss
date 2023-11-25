@@ -1,31 +1,5 @@
-@mixin shadow {
-    box-shadow: 0 10px 13px -7px rgba(0,0,0,.4), 0 0 5px 2px transparent;
-}
-
-@mixin hoverShadowSetup {
-    transition: box-shadow 0.3s ease;
-  box-shadow: 0 0 0 0 rgba(255, 255, 0, 0);
-}
-
-@mixin hoverShadow {
-    box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.7);
-}
-
-@mixin headlinePosition {
-    text-align: center;
-    margin: 0 auto;
-    max-width: 80%;
-}
-
-@mixin parentBorder {
-    border: 2px solid black;
-    border-radius: 10px;
-}
-
-@mixin childBorder {
-    border: 1px solid black;
-    border-radius: 5px;
-}
+@import '__index_mixins.scss';
+@import '__index_variables.scss';
 
 html {
   box-sizing: border-box;
@@ -36,8 +10,12 @@ html {
   box-sizing: inherit;
 }
 
+body {
+    height: 1500px;
+}
+
 .main-headline {
-  color: rgb(180, 180, 180);
+  color: $indexGreyHeadline;
     @include headlinePosition;
 }
 
@@ -53,7 +31,7 @@ html {
   padding: 0.5rem;
   overflow: hidden;
   @include parentBorder;
-  background: rgb(238, 238, 238);
+  background: $indexGreyBox;
   @include shadow;
 }
 
@@ -68,7 +46,7 @@ html {
   .property__thumbnail {
     width: calc(8rem - 2px);
     height: 50%;
-    border-radius: 5px 5px 0 0;
+    @include columnBorder;
   }
   .property__description {
     padding: 0 0.5rem;
@@ -99,25 +77,66 @@ html {
 
 .compare-properties__container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     width: 80%;
     margin: 0.5rem auto 1rem;
     padding: 0.5rem;
     @include parentBorder;
     @include shadow;
+    background: $indexGreyBox;
+    @media (min-width: 711px) {
+        flex-direction: row;
+        justify-content: center;
+        align-items: normal;
+    }
 }
 
 .compared-property__container {
     display: flex;
     flex-direction: column;
-    width: 12rem;
+    width: 10rem;
+    height: 22rem;
     margin: 10px;
     @include childBorder;
     cursor: pointer;
+    @include hoverShadowSetup;
+    background: white;
+    @include shadow;
+    @media (min-width: 560px) {
+        flex-direction: row;
+        width: 20rem;
+        height: 16rem;
+    }
+    @media (min-width: 711px) {
+        width: 12rem;
+        height: 24rem;
+        flex-direction: column;
+    }
     .property__thumbnail{
-        width: calc(12rem - 1px);
-        height: 50%;
-        border-radius: 5px 5px 0 0;
+        width: 100%;
+        height: 30%;
+        @include columnBorder;
+        object-fit: cover;
+        @media (min-width: 560px) {
+        width: 50%;
+        height: 100%;
+        @include rowBorder;
+        object-fit: cover;
+    }
+        @media (min-width: 711px) {
+            width: calc(12rem - 1px);
+            border-right: 1px solid black;
+            height: 50%;
+            @include columnBorder;
+    }
+    }
+    .compared-property_descriptions__container {
+        display: flex;
+        flex-direction: column;
+        @media (min-width: 711px) {
+            height: 50%;
+    }
     }
     p {
         margin: 0.1rem 0;
@@ -125,9 +144,9 @@ html {
     }
     .property_company__container {
         display: flex;
-        height: 50%;
         .property_company__logo {
-            width: 30%;
+            height: 50px;
+            border-radius: 5px;
         }
         .property_company__name {
             width: 70%;
@@ -135,5 +154,6 @@ html {
     }
     &:hover {
         @include hoverShadow;
+        transform: scale(1.01)
     }
 }

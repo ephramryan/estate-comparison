@@ -1,4 +1,5 @@
 let data;
+let selectedProperties = [];
 
 async function fetchProperties() {
   try {
@@ -40,13 +41,30 @@ async function fetchProperties() {
       propertyContainer.addEventListener("click", () => {
         propertyContainer.classList.toggle("selected");
 
-        const selectedProperties = document.querySelectorAll(
-          ".property__container.selected"
-        );
+        // const selectedProperties = document.querySelectorAll(
+        //   ".property__container.selected"
+        // );
+        // if (selectedProperties.length > 2) {
+        //   const lastSelected =
+        //     selectedProperties[selectedProperties.length - 1];
+        //   lastSelected.classList.remove("selected");
+        // }
+        if (propertyContainer.classList.contains("selected")) {
+          // Add to selectedProperties
+          selectedProperties.push(propertyContainer);
+        } else {
+          // Remove from selectedProperties
+          const index = selectedProperties.indexOf(propertyContainer);
+          if (index !== -1) {
+            selectedProperties.splice(index, 1);
+          }
+        }
+
         if (selectedProperties.length > 2) {
-          const lastSelected =
-            selectedProperties[selectedProperties.length - 1];
-          lastSelected.classList.remove("selected");
+          // Unselect the first property
+          selectedProperties[0].classList.remove("selected");
+          // Shift the selection
+          selectedProperties.shift();
         }
 
         updateComparedProperties();
@@ -93,20 +111,28 @@ function updateComparedProperties() {
       thumbnail.classList.add("property__thumbnail");
       thumbnail.src = property.querySelector(".property__thumbnail").src;
 
+        const propertyDescription = document.createElement("div");
+        propertyDescription.classList.add("compared-property_descriptions__container");
+
       const nameElement = document.createElement("p");
-      nameElement.textContent = name2;
+      nameElement.classList.add("property__name");
+      nameElement.innerHTML = `<strong>${name2}</strong>`;
 
       const priceElement = document.createElement("p");
-      priceElement.textContent = `Price: ${price}`;
+      priceElement.classList.add("property__price");
+      priceElement.innerHTML = `<strong>Price:</strong> ${price}`;
 
       const localityElement = document.createElement("p");
-      localityElement.textContent = `Locality: ${locality}`;
+      localityElement.classList.add("property__locality");
+      localityElement.innerHTML = `<strong>Locality:</strong> ${locality}`;
 
       const buildingAreaElement = document.createElement("p");
-      buildingAreaElement.textContent = `Building Area: ${buildingArea}`;
+      buildingAreaElement.classList.add("property__building-area");
+      buildingAreaElement.innerHTML = `<strong>Building Area:</strong> ${buildingArea}`;
 
       const landAreaElement = document.createElement("p");
-      landAreaElement.textContent = `Land Area: ${landArea}`;
+      landAreaElement.classList.add("property__land-area");
+      landAreaElement.innerHTML = `<strong>Land Area:</strong> ${landArea}`;
 
       const companyContainer = document.createElement("div");
       companyContainer.classList.add("property_company__container");
@@ -120,18 +146,21 @@ function updateComparedProperties() {
 
       const companyNameElement = document.createElement("p");
       companyNameElement.classList.add("property_company__name");
-      companyNameElement.textContent = `Company: ${companyName}`;
-
+      companyNameElement.innerHTML = `<strong>Company:</strong> ${
+        companyName ? companyName : "unknown"
+      }`;
       companyContainer.appendChild(companyNameElement);
 
       comparedPropertyContainer.appendChild(thumbnail);
-      comparedPropertyContainer.appendChild(nameElement);
-      comparedPropertyContainer.appendChild(priceElement);
-      comparedPropertyContainer.appendChild(localityElement);
-      comparedPropertyContainer.appendChild(buildingAreaElement);
-      comparedPropertyContainer.appendChild(landAreaElement);
-      comparedPropertyContainer.appendChild(companyContainer);
 
+      propertyDescription.appendChild(nameElement);
+      propertyDescription.appendChild(priceElement);
+      propertyDescription.appendChild(localityElement);
+      propertyDescription.appendChild(buildingAreaElement);
+      propertyDescription.appendChild(landAreaElement);
+      propertyDescription.appendChild(companyContainer);
+
+      comparedPropertyContainer.appendChild(propertyDescription);
       comparedPropertiesContainer.appendChild(comparedPropertyContainer);
     }
   });
