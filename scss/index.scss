@@ -29,10 +29,24 @@ body {
   width: 80%;
   margin: 0.5rem auto 1rem;
   padding: 0.5rem;
-  overflow: hidden;
+  // overflow: hidden;
+  overflow-x: scroll;
   @include parentBorder;
   background: $indexGreyBox;
   @include shadow;
+  // below styles scrollbar
+  &::-webkit-scrollbar {
+    width: 12px;
+    cursor: pointer;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $indexGreyBox;
+    border-radius: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: $indexGreyHeadline;
+    border-radius: 0 0 10px 10px;
+  }
 }
 
 // contains 1 fetched property
@@ -110,7 +124,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 10rem;
-    height: 22rem;
+    height: 20rem;
     margin: 10px;
     @include childBorder;
     cursor: pointer;
@@ -124,7 +138,7 @@ body {
     }
     @media (min-width: 711px) {
         width: 12rem;
-        height: 25rem;
+        height: 20rem;
         flex-direction: column;
     }
     .property__thumbnail{
@@ -141,7 +155,7 @@ body {
         @media (min-width: 711px) {
             width: calc(12rem - 1px);
             border-right: 1px solid black;
-            height: 50%;
+            height: 35%;
             @include columnBorder;
     }
     }

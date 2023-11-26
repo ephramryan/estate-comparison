@@ -23,11 +23,11 @@ fetchProperties()
     // START: scrolling functions
     function scrollLeft() {
       const container = document.querySelector(".properties__container");
-      container.scrollLeft -= 200; // adjust scroll distance here
+      container.scrollLeft -= 500; // adjust scroll distance here
     }
     function scrollRight() {
       const container = document.querySelector(".properties__container");
-      container.scrollLeft += 200; // adjust scroll distance here
+      container.scrollLeft += 500; // adjust scroll distance here
     }
     // event listeners for scroll buttons
     document
