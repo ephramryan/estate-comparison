@@ -7,6 +7,8 @@ export function updateComparedProperties(data) {
   );
   comparedPropertiesContainer.innerHTML = "";
 
+const selectionMessage = document.querySelector(".selection-message");
+
   if (selectedProperties.length === 2) {
     const property1 = selectedProperties[0];
     const property2 = selectedProperties[1];
@@ -101,6 +103,17 @@ export function updateComparedProperties(data) {
         landAreaElement1.style.color = "#FFFFFF";
         landAreaElement2.style.backgroundColor = "#FF0000";
       }
+      // Show the compared properties container
+      comparedPropertiesContainer.classList.remove(
+        "compare-properties__hidden"
+      );
+      // Hide the message
+      selectionMessage.style.display = "none";
     }
+  } else {
+    // Hide the compared properties container
+    comparedPropertiesContainer.classList.add("compare-properties__hidden");
+    // Show the message
+    selectionMessage.style.display = "block";
   }
 }

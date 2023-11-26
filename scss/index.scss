@@ -119,6 +119,10 @@ body {
     }
 }
 
+.compare-properties__hidden {
+   display: none;
+}
+
 // contains 1 of 2 compared properties
 .compared-property__container {
     display: flex;
@@ -192,6 +196,13 @@ body {
         @include hoverShadow;
         transform: scale(1.01)
     }
+}
+
+.selection-message {
+  text-align: center;
+  font-weight: bold;
+   font-size: 16px;
+   color: red;
 }
 
 
