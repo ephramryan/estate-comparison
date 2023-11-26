@@ -29,8 +29,8 @@ body {
   width: 80%;
   margin: 0.5rem auto 1rem;
   padding: 0.5rem;
-  // overflow: hidden;
   overflow-x: scroll;
+  overflow-y: hidden;
   @include parentBorder;
   background: $indexGreyBox;
   @include shadow;
@@ -57,12 +57,15 @@ body {
   @include hoverShadowSetup;
   cursor: pointer;
   width: 8rem;
+  height: 10rem;
   .property__thumbnail {
     width: calc(8rem - 2px);
     height: 50%;
     @include columnBorder;
   }
   .property__description {
+    font-size: 16px;
+    margin: 0 auto;
     padding: 0 0.5rem;
   }
   &:hover {
@@ -70,7 +73,7 @@ body {
     transform: scale(1.01)
   }
   &.selected {
-    @include hoverShadow;
+    @include selectionShadow;
   }
 }
 
@@ -80,7 +83,7 @@ body {
   #scrollLeftButton,
   #scrollRightButton {
     margin: 0.5rem 0.5rem;
-    @include childBorder;
+    @include buttonStyling;
     cursor: pointer;
     @include hoverShadowSetup;
     &:hover {
@@ -92,8 +95,8 @@ body {
 #resetButton {
     display: block;
     margin: 0.5rem auto 1rem;
-    
-    @include childBorder;
+    padding: 0.5rem;
+    @include buttonStyling;
     cursor: pointer;
     @include hoverShadowSetup;
     &:hover {

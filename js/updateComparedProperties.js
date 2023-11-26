@@ -103,17 +103,17 @@ const selectionMessage = document.querySelector(".selection-message");
         landAreaElement1.style.color = "#FFFFFF";
         landAreaElement2.style.backgroundColor = "#FF0000";
       }
-      // Show the compared properties container
+      // show the compared properties container
       comparedPropertiesContainer.classList.remove(
         "compare-properties__hidden"
       );
-      // Hide the message
+      // hide the message
       selectionMessage.style.display = "none";
     }
   } else {
-    // Hide the compared properties container
+    // hide the compared properties container
     comparedPropertiesContainer.classList.add("compare-properties__hidden");
-    // Show the message
+    // show the message
     selectionMessage.style.display = "block";
   }
 }

@@ -21,13 +21,19 @@ fetchProperties()
     }
 
     // START: scrolling functions
+    // check if device is a mobile device
+    function isMobile() {
+      return window.innerWidth <= 600; // adjust screen width here
+    }
     function scrollLeft() {
       const container = document.querySelector(".properties__container");
-      container.scrollLeft -= 500; // adjust scroll distance here
+      const scrollDistance = isMobile() ? 1000 : 3000; // adjust scroll distance here
+      container.scrollLeft -= scrollDistance;
     }
     function scrollRight() {
       const container = document.querySelector(".properties__container");
-      container.scrollLeft += 500; // adjust scroll distance here
+      const scrollDistance = isMobile() ? 1000 : 3000; // adjust scroll distance here
+      container.scrollLeft += scrollDistance;
     }
     // event listeners for scroll buttons
     document

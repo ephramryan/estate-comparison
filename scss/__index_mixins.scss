@@ -11,6 +11,10 @@
     box-shadow: 0 0 10px 5px rgba(255, 255, 0, 0.7);
 }
 
+@mixin selectionShadow {
+    box-shadow: 0 0 10px 5px rgba(255, 7, 7, 0.7);
+}
+
 @mixin headlinePosition {
     text-align: center;
     margin: 0 auto;
@@ -33,4 +37,10 @@
 
 @mixin columnBorder {
     border-radius: 5px 5px 0 0;
+}
+
+@mixin buttonStyling {
+    background: $indexGreyBox;
+    border: 1px solid black;
+    border-radius: 5px;
 }
