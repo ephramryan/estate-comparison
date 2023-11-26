@@ -75,6 +75,18 @@ body {
   }
 }
 
+#resetButton {
+    display: block;
+    margin: 0.5rem auto 1rem;
+    
+    @include childBorder;
+    cursor: pointer;
+    @include hoverShadowSetup;
+    &:hover {
+        @include hoverShadow;
+    }
+}
+
 .compare-properties__container {
     display: flex;
     flex-direction: column;
@@ -110,7 +122,7 @@ body {
     }
     @media (min-width: 711px) {
         width: 12rem;
-        height: 24rem;
+        height: 25rem;
         flex-direction: column;
     }
     .property__thumbnail{
@@ -144,12 +156,20 @@ body {
     }
     .property_company__container {
         display: flex;
+        align-items: center;
         .property_company__logo {
+            width: 30%;
             height: 50px;
             border-radius: 5px;
         }
         .property_company__name {
             width: 70%;
+        } 
+    }
+    .property_company__container-noLogo {
+        width: 100%;
+        .property_company__name {
+            width: 100%;
         } 
     }
     &:hover {

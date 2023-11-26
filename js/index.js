@@ -13,6 +13,7 @@ async function fetchProperties() {
     );
 
     data.forEach((property) => {
+      const id = property.id;
       const nameExtracted = property.name_extracted;
       const locality = property.locality;
       const firstImage = property.images[0];
@@ -41,29 +42,24 @@ async function fetchProperties() {
       propertyContainer.addEventListener("click", () => {
         propertyContainer.classList.toggle("selected");
 
-        // const selectedProperties = document.querySelectorAll(
-        //   ".property__container.selected"
-        // );
-        // if (selectedProperties.length > 2) {
-        //   const lastSelected =
-        //     selectedProperties[selectedProperties.length - 1];
-        //   lastSelected.classList.remove("selected");
-        // }
         if (propertyContainer.classList.contains("selected")) {
-          // Add to selectedProperties
-          selectedProperties.push(propertyContainer);
+          selectedProperties.push({
+            id: id,
+            propertyContainer: propertyContainer,
+          });
         } else {
-          // Remove from selectedProperties
-          const index = selectedProperties.indexOf(propertyContainer);
+          const index = selectedProperties.findIndex(
+            (selectedProperty) => selectedProperty.id === id
+          );
           if (index !== -1) {
             selectedProperties.splice(index, 1);
           }
         }
 
         if (selectedProperties.length > 2) {
-          // Unselect the first property
-          selectedProperties[0].classList.remove("selected");
-          // Shift the selection
+          // unselect the first property
+          selectedProperties[0].propertyContainer.classList.remove("selected");
+          // shift the selection
           selectedProperties.shift();
         }
 
@@ -75,95 +71,182 @@ async function fetchProperties() {
   }
 }
 
-// function to update compared properties
 function updateComparedProperties() {
   const comparedPropertiesContainer = document.querySelector(
     ".compare-properties__container"
   );
   comparedPropertiesContainer.innerHTML = "";
 
-  const selectedProperties = document.querySelectorAll(
-    ".property__container.selected"
-  );
+  if (selectedProperties.length === 2) {
+    const property1 = selectedProperties[0];
+    const property2 = selectedProperties[1];
 
-  selectedProperties.forEach((property) => {
-    const name = property
-      .querySelector(".property__description")
-      .textContent.split(",")[0];
-    // find the fetched data for the selected property by name_extracted
-    const selectedPropertyData = data.find(
-      (property) => property.name_extracted === name
+    // find the fetched data for the selected properties by id
+    const selectedPropertyData1 = data.find(
+      (property) => property.id === property1.id
+    );
+    const selectedPropertyData2 = data.find(
+      (property) => property.id === property2.id
     );
 
-    if (selectedPropertyData) {
-      const name2 = selectedPropertyData.name;
-      const price = selectedPropertyData.prize_czk;
-      const locality = selectedPropertyData.locality;
-      const buildingArea = selectedPropertyData.building_area;
-      const landArea = selectedPropertyData.land_area;
-      const companyName = selectedPropertyData.company_name;
-      const companyLogo = selectedPropertyData.company_logo;
+    if (selectedPropertyData1 && selectedPropertyData2) {
+      const price1 = selectedPropertyData1.prize_czk;
+      const price2 = selectedPropertyData2.prize_czk;
+      const buildingArea1 = selectedPropertyData1.building_area;
+      const buildingArea2 = selectedPropertyData2.building_area;
+      const landArea1 = selectedPropertyData1.land_area;
+      const landArea2 = selectedPropertyData2.land_area;
 
-      const comparedPropertyContainer = document.createElement("div");
-      comparedPropertyContainer.classList.add("compared-property__container");
+      const comparedPropertyContainer1 = createComparedPropertyElement(
+        property1.propertyContainer,
+        selectedPropertyData1,
+        price1,
+        buildingArea1,
+        landArea1,
+        0
+      );
+      const comparedPropertyContainer2 = createComparedPropertyElement(
+        property2.propertyContainer,
+        selectedPropertyData2,
+        price2,
+        buildingArea2,
+        landArea2,
+        1
+      );
 
-      const thumbnail = document.createElement("img");
-      thumbnail.classList.add("property__thumbnail");
-      thumbnail.src = property.querySelector(".property__thumbnail").src;
+      comparedPropertiesContainer.appendChild(comparedPropertyContainer1);
+      comparedPropertiesContainer.appendChild(comparedPropertyContainer2);
 
-        const propertyDescription = document.createElement("div");
-        propertyDescription.classList.add("compared-property_descriptions__container");
+      // compare prices, building and land areas and set background color/font color
+      const priceElement1 =
+        comparedPropertyContainer1.querySelector(".property__price");
+      const buildingAreaElement1 = comparedPropertyContainer1.querySelector(
+        ".property__building-area"
+      );
+      const landAreaElement1 = comparedPropertyContainer1.querySelector(
+        ".property__land-area"
+      );
+      const priceElement2 =
+        comparedPropertyContainer2.querySelector(".property__price");
+      const buildingAreaElement2 = comparedPropertyContainer2.querySelector(
+        ".property__building-area"
+      );
+      const landAreaElement2 = comparedPropertyContainer2.querySelector(
+        ".property__land-area"
+      );
 
-      const nameElement = document.createElement("p");
-      nameElement.classList.add("property__name");
-      nameElement.innerHTML = `<strong>${name2}</strong>`;
+      const numericPrice1 = parseFloat(price1);
+      const numericPrice2 = parseFloat(price2);
+      const numericBuildingArea1 = parseFloat(buildingArea1);
+      const numericBuildingArea2 = parseFloat(buildingArea2);
+      const numericLandArea1 = parseFloat(landArea1);
+      const numericLandArea2 = parseFloat(landArea2);
 
-      const priceElement = document.createElement("p");
-      priceElement.classList.add("property__price");
-      priceElement.innerHTML = `<strong>Price:</strong> ${price}`;
-
-      const localityElement = document.createElement("p");
-      localityElement.classList.add("property__locality");
-      localityElement.innerHTML = `<strong>Locality:</strong> ${locality}`;
-
-      const buildingAreaElement = document.createElement("p");
-      buildingAreaElement.classList.add("property__building-area");
-      buildingAreaElement.innerHTML = `<strong>Building Area:</strong> ${buildingArea}`;
-
-      const landAreaElement = document.createElement("p");
-      landAreaElement.classList.add("property__land-area");
-      landAreaElement.innerHTML = `<strong>Land Area:</strong> ${landArea}`;
-
-      const companyContainer = document.createElement("div");
-      companyContainer.classList.add("property_company__container");
-
-      if (companyLogo) {
-        const companyLogoElement = document.createElement("img");
-        companyLogoElement.classList.add("property_company__logo");
-        companyLogoElement.src = companyLogo;
-        companyContainer.appendChild(companyLogoElement);
+      if (numericPrice1 > numericPrice2) {
+        priceElement1.style.backgroundColor = "#FF0000";
+        priceElement2.style.backgroundColor = "#006400";
+        priceElement2.style.color = "#FFFFFF";
+      } else {
+        priceElement1.style.backgroundColor = "#006400";
+        priceElement1.style.color = "#FFFFFF";
+        priceElement2.style.backgroundColor = "#FF0000";
       }
 
-      const companyNameElement = document.createElement("p");
-      companyNameElement.classList.add("property_company__name");
-      companyNameElement.innerHTML = `<strong>Company:</strong> ${
-        companyName ? companyName : "unknown"
-      }`;
-      companyContainer.appendChild(companyNameElement);
+      if (numericBuildingArea1 < numericBuildingArea2) {
+        buildingAreaElement1.style.backgroundColor = "#FF0000";
+        buildingAreaElement2.style.backgroundColor = "#006400";
+        buildingAreaElement2.style.color = "#FFFFFF";
+      } else {
+        buildingAreaElement1.style.backgroundColor = "#006400";
+        buildingAreaElement1.style.color = "#FFFFFF";
+        buildingAreaElement2.style.backgroundColor = "#FF0000";
+      }
 
-      comparedPropertyContainer.appendChild(thumbnail);
-
-      propertyDescription.appendChild(nameElement);
-      propertyDescription.appendChild(priceElement);
-      propertyDescription.appendChild(localityElement);
-      propertyDescription.appendChild(buildingAreaElement);
-      propertyDescription.appendChild(landAreaElement);
-      propertyDescription.appendChild(companyContainer);
-
-      comparedPropertyContainer.appendChild(propertyDescription);
-      comparedPropertiesContainer.appendChild(comparedPropertyContainer);
+      if (numericLandArea1 < numericLandArea2) {
+        landAreaElement1.style.backgroundColor = "#FF0000";
+        landAreaElement2.style.backgroundColor = "#006400";
+        landAreaElement2.style.color = "#FFFFFF";
+      } else {
+        landAreaElement1.style.backgroundColor = "#006400";
+        landAreaElement1.style.color = "#FFFFFF";
+        landAreaElement2.style.backgroundColor = "#FF0000";
+      }
     }
-  });
+  }
+}
+
+function createComparedPropertyElement(
+  property,
+  selectedPropertyData,
+  price,
+  building_area,
+  land_area,
+  index
+) {
+  const comparedPropertyContainer = document.createElement("div");
+  comparedPropertyContainer.classList.add("compared-property__container");
+
+  const thumbnail = document.createElement("img");
+  thumbnail.classList.add("property__thumbnail");
+  thumbnail.src = property.querySelector(".property__thumbnail").src;
+
+  const propertyDescription = document.createElement("div");
+  propertyDescription.classList.add(
+    "compared-property_descriptions__container"
+  );
+
+  const nameElement = document.createElement("p");
+  nameElement.classList.add("property__name");
+  nameElement.innerHTML = `<strong>${selectedPropertyData.name}</strong>`;
+
+  const priceElement = document.createElement("p");
+  priceElement.innerHTML = `<strong>Price:</strong> ${price}`;
+  priceElement.classList.add("property__price");
+
+  const localityElement = document.createElement("p");
+  localityElement.innerHTML = `<strong>Locality:</strong> ${selectedPropertyData.locality}`;
+
+  const buildingAreaElement = document.createElement("p");
+  buildingAreaElement.innerHTML = `<strong>Building Area:</strong> ${selectedPropertyData.building_area}`;
+  buildingAreaElement.classList.add("property__building-area");
+
+  const landAreaElement = document.createElement("p");
+  landAreaElement.innerHTML = `<strong>Land Area:</strong> ${selectedPropertyData.land_area}`;
+  landAreaElement.classList.add("property__land-area");
+
+  const companyContainer = document.createElement("div");
+  companyContainer.classList.add("property_company__container");
+
+  if (selectedPropertyData.company_logo) {
+    const companyLogoElement = document.createElement("img");
+    companyLogoElement.classList.add("property_company__logo");
+    companyLogoElement.src = selectedPropertyData.company_logo;
+    companyContainer.appendChild(companyLogoElement);
+  } else {
+    companyContainer.classList.add("property_company__container-noLogo");
+  };
+
+  const companyNameElement = document.createElement("p");
+  companyNameElement.classList.add("property_company__name");
+  companyNameElement.innerHTML = `<strong>Company:</strong> ${
+    selectedPropertyData.company_name
+      ? selectedPropertyData.company_name
+      : "unknown"
+  }`;
+  companyContainer.appendChild(companyNameElement);
+
+  comparedPropertyContainer.appendChild(thumbnail);
+
+  propertyDescription.appendChild(nameElement);
+  propertyDescription.appendChild(priceElement);
+  propertyDescription.appendChild(localityElement);
+  propertyDescription.appendChild(buildingAreaElement);
+  propertyDescription.appendChild(landAreaElement);
+  propertyDescription.appendChild(companyContainer);
+
+  comparedPropertyContainer.appendChild(propertyDescription);
+
+  return comparedPropertyContainer;
 }
 
 // START: scrolling functions
@@ -183,6 +266,20 @@ document
   .getElementById("scrollRightButton")
   .addEventListener("click", scrollRight);
 // END: scrolling functions
+
+// event listener for the reset button
+document
+  .getElementById("resetButton")
+  .addEventListener("click", resetSelection);
+
+// function to reset the selected properties
+function resetSelection() {
+  selectedProperties.forEach((selectedProperty) => {
+    selectedProperty.propertyContainer.classList.remove("selected");
+  });
+  selectedProperties = [];
+  updateComparedProperties();
+}
 
 // fetch properties data
 fetchProperties();
