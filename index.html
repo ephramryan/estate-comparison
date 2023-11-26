@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="scss/index.scss" />
-    <script src="js/index.js" defer></script>
+    <script type="module" src="js/main.js" defer></script>
     <title>Estate Comparison</title>
   </head>
   <body>
@@ -14,7 +14,7 @@
       <h2 class="headline">
         Choose the 2 properties you want to compare below
       </h2>
-      <div class="scroll__container">
+      <div class="scroll_btns__container">
         <button id="scrollLeftButton">&lt;</button>
         <button id="scrollRightButton">&gt;</button>
       </div>
@@ -23,7 +23,9 @@
       </div>
       <h2 class="headline">2 Compared Properties</h2>
       <button id="resetButton">Reset Selection</button>
-      <div class="compare-properties__container"></div>
+      <div class="compare-properties__container">
+        <!-- 2 selected properties will appear here for comparison -->
+      </div>
     </main>
   </body>
 </html>

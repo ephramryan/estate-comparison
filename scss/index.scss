@@ -11,7 +11,7 @@ html {
 }
 
 body {
-    height: 1500px;
+    height: 1600px;
 }
 
 .main-headline {
@@ -60,7 +60,7 @@ body {
   }
 }
 
-.scroll__container {
+.scroll_btns__container {
   display: flex;
   justify-content: center;
   #scrollLeftButton,
@@ -87,6 +87,7 @@ body {
     }
 }
 
+// contains 2 compared properties at a time
 .compare-properties__container {
     display: flex;
     flex-direction: column;
@@ -104,6 +105,7 @@ body {
     }
 }
 
+// contains 1 of 2 compared properties
 .compared-property__container {
     display: flex;
     flex-direction: column;
@@ -177,3 +179,6 @@ body {
         transform: scale(1.01)
     }
 }
+
+
+
